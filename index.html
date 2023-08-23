@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adivina el Número</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333333;
+        }
+
+        p {
+            color: #666666;
+            margin-bottom: 10px;
+        }
+
+        input {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #resultado {
+            color: #333333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adivina el Número</h1>
+        <p>Estoy pensando en un número entre 1 y 100. ¿Puedes adivinar cuál es?</p>
+        <input type="number" id="guess" min="1" max="100">
+        <button onclick="adivinaNumero()">Adivinar</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        const numeroSecreto = Math.floor(Math.random() * 100) + 1;
+        let intentos = 0;
+        const maxIntentos = 10;
+
+        function adivinaNumero() {
+            const suposicion = parseInt(document.getElementById('guess').value);
+            const resultadoElemento = document.getElementById('resultado');
+
+            if (isNaN(suposicion) || suposicion < 1 || suposicion > 100) {
+                resultadoElemento.textContent = "Por favor, introduce un número válido entre 1 y 100.";
+                return;
+            }
+
+            intentos++;
+
+            if (suposicion < numeroSecreto) {
+                resultadoElemento.textContent = "El número es más grande.";
+            } else if (suposicion > numeroSecreto) {
+                resultadoElemento.textContent = "El número es más pequeño.";
+            } else {
+                resultadoElemento.textContent = `¡Felicidades! ¡Adivinaste el número en ${intentos} intentos!`;
+                document.getElementById('guess').disabled = true;
+            }
+
+            if (intentos === maxIntentos && suposicion !== numeroSecreto) {
+                resultadoElemento.textContent = `¡Agotaste tus intentos! El número secreto era ${numeroSecreto}.`;
+                document.getElementById('guess').disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
